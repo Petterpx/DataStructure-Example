@@ -8,7 +8,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$/linked" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/linked" />
+            <option value="$PROJECT_DIR$/Linked" />
           </set>
         </option>
       </GradleProjectSettings>
