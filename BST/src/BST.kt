@@ -41,6 +41,7 @@ class BST<E : Comparable<E>> {
         return node
     }
 
+    /** 是否包含指定元素 */
     fun contains(e: E): Boolean {
         return contains(root, e)
     }
@@ -48,21 +49,6 @@ class BST<E : Comparable<E>> {
     /** 前序遍历 */
     fun prologue() {
         prologue(root)
-    }
-
-    fun preOrderNR() {
-        val stack = Stack<Node<E>>()
-        stack.push(root)
-        while (stack.isNotEmpty()) {
-            val cur = stack.pop()
-            println(cur.e)
-            cur.left?.let {
-                stack.push(it)
-            }
-            cur.right?.let {
-                stack.push(it)
-            }
-        }
     }
 
     /** 中序遍历 */
@@ -75,28 +61,62 @@ class BST<E : Comparable<E>> {
         postSequence(root)
     }
 
+    /** dfs-前序遍历 */
     private fun prologue(node: Node<E>?) {
         if (node == null) return
-        println(node.e)
+        print("${node.e},")
         prologue(node.left)
         prologue(node.right)
     }
 
+    /**使用栈实现-前序遍历-dfs */
+    fun preOrderNR() {
+        val stack = Stack<Node<E>>()
+        stack.push(root)
+        while (stack.isNotEmpty()) {
+            val cur = stack.pop()
+            print("${cur.e},")
+            cur.right?.let {
+                stack.push(it)
+            }
+            cur.left?.let {
+                stack.push(it)
+            }
+        }
+    }
 
+    /** 前序遍历-队列实现-bfs */
+    fun levelOrder() {
+        val q = LinkedList<Node<E>>()
+        root?.let { q.add(it) }
+        while (!q.isEmpty()) {
+            val node = q.remove()
+            print("${node.e},")
+            node?.left?.let {
+                q.add(it)
+            }
+            node?.right?.let {
+                q.add(it)
+            }
+        }
+    }
+
+    /** 中序遍历-具体实现 */
     private fun inOrder(node: Node<E>?) {
         if (node == null) {
             return
         }
         inOrder(node.left)
-        println(node.e)
+        println("${node.e},")
         inOrder(node.right)
     }
 
+    /** 后续遍历具体实现 */
     private fun postSequence(node: Node<E>?) {
         if (node == null) return
         postSequence(node.left)
         postSequence(node.right)
-        println(node.e)
+        print("${node.e},")
     }
 
     /** 是否包含指定元素 */
@@ -136,15 +156,8 @@ class BST<E : Comparable<E>> {
         return stringBuilder.toString()
     }
 
-    private fun addSpec(height: Int, res: String = "*"): String {
-        val stringBuilder = StringBuilder()
-        (0..height).forEach { _ ->
-            stringBuilder.append(res)
-        }
-        return stringBuilder.toString()
-    }
 
-    /** 遍历当前树，合成相应的list
+    /** 层序遍历当前树，合成相应的list
      *  当存在[*]时，代表其是右子树，并且其左子树为null
      * */
     private fun getBstList(
@@ -159,7 +172,7 @@ class BST<E : Comparable<E>> {
 
         if (node == null) {
             val nullLists = arrayList[height]
-            nullLists.add("null")
+            nullLists.add("#")
             return arrayList
         }
 
@@ -167,8 +180,6 @@ class BST<E : Comparable<E>> {
         val lists = arrayList[height]
 
         //计算什么位置时增加下标
-        // TODO: 2020/9/12 逻辑问题
-
         lists.add(node.e.toString())
 
         getBstList(node.left, height + 1, arrayList)
@@ -220,19 +231,7 @@ class BST<E : Comparable<E>> {
         return node
     }
 
-    fun levelOrder() {
-        val q = LinkedList<Node<E>>()
-        root?.let { q.add(it) }
-        while (!q.isEmpty()) {
-            val node = q.remove()
-            node?.left?.let {
-                q.add(it)
-            }
-            node?.right?.let {
-                q.add(it)
-            }
-        }
-    }
+
 
     /** 删除指定元素 */
     fun remove(e: E) {
@@ -240,59 +239,74 @@ class BST<E : Comparable<E>> {
     }
 
     /**
-     * 删除以node 为根的二分搜索树种值为e的节点
+     * 删除以node 为根的二分搜索树 值为e的节点
      * 返回 删除节点后新的二分搜索树的根
      * */
     private fun remove(node: Node<E>?, e: E): Node<E>? {
+        //健壮性判断
         if (node == null) return node
-        if (node.e < e) {
-            remove(node.right, e)
-        } else if (node.e > e) {
-            remove(node.left, e)
-        } else {
-            if (node.left == null) {
-                val rightNode = node.right
-                node.right = null
-                --size
-                return rightNode
+        return when {
+            //遍历左孩子
+            e < node.e -> {
+                node.left = remove(node.left, e)
+                node
             }
+            //否则遍历右孩子
+            e > node.e -> {
+                node.right = remove(node.right, e)
+                node
+            }
+            else -> { //node.e==e
+                //左孩子为null
+                if (node.left == null) {
+                    //先拿到当前右孩子
+                    val rightNode = node.right
+                    //删除右子树
+                    node.right = null
+                    //更新树的高度
+                    --size
+                    //返回删除的右子树
+                    return rightNode
+                }
 
-            if (node.right == null) {
-                val leftNode = node.left
+                //右孩子为null
+                if (node.right == null) {
+                    val leftNode = node.left
+                    node.left = null
+                    --size
+                    return leftNode
+                }
+
+                //找到待删除节点左右子树均不为null的情况
+                //找到比待删除节点大的最小节点，即删除节点右子树的最小节点
+                // 用这个节点替代删除节点的位置
+                val nodeSuccess = minimum(node.right!!)
+                nodeSuccess.right = removeMin(node.right)
+                nodeSuccess.left = node.left
                 node.left = null
-                --size
-                return leftNode
+                node.right = null
+                return nodeSuccess
             }
-
-            if (node.right == null && node.left == null) return null
         }
-
-        //找到待删除节点左右子树均不为null的情况
-        //找到比待删除节点大的最小节点，即删除节点右子树的最小节点
-        // 用这个节点替代删除节点的位置
-        val nodeSuccess = minimum(node.right!!)
-        nodeSuccess.left = node.left
-        nodeSuccess.right = removeMin(node.right)
-        return nodeSuccess
     }
-
 }
 
 
 fun main() {
-//    val bst = BST<Int>()
-//    bst.add(41)
-//    bst.add(22)
-//    bst.add(58)
-//    bst.add(15)
-//    bst.add(33)
-//    bst.add(50)
-//    bst.add(42)
-//    println(bst.toString())
-//    bst.remove(41)
-//    println(bst.toString())
-
-
+    val bst = BST<Int>()
+    bst.add(41)
+    bst.add(22)
+    bst.add(58)
+    bst.add(15)
+    bst.add(33)
+    bst.add(50)
+    bst.add(42)
+    bst.add(30)
+    bst.add(14)
+    bst.add(13)
+    bst.add(29)
+    println(bst.toString())
+    bst.levelOrder()
 }
 
 
