@@ -2,19 +2,41 @@
  * @Author petterp
  * @Date 2020/9/25-8:54 上午
  * @Email ShiyihuiCloud@163.com
- * @Function
+ * @Function 最大堆
  */
-class MaxHeap<E : Comparable<E>>(capacity: Int = 8) {
-    private var data = ArrayList<E>(capacity)
+
+fun test() {
+    MaxHeap<Int>(8)
+}
+
+class MaxHeap<E : Comparable<E>> {
+
+    private var data: ArrayList<E>
+
+    constructor(capacity: Int) {
+        data = ArrayList(capacity)
+    }
+
+    constructor(arr: Array<E>) {
+        data = ArrayList(arr.size)
+        arr.forEach {
+            data.add(it)
+        }
+        size = arr.size
+        if (size == 0 || size == 1) return
+        var parent = parent(size - 1)
+        while (parent >= 0) {
+            siftDown(parent)
+            parent--
+        }
+    }
 
     //返回堆中元素个数
-    private val size: Int
-        get() {
-            return data.size
-        }
+    private var size: Int = 0
 
     //堆中是否为null
     fun isEmpty() = data.isEmpty()
+
 
     //返回完全二叉树的数组表示中，指定索引元素的父节点索引
     fun parent(index: Int): Int {
@@ -75,7 +97,7 @@ class MaxHeap<E : Comparable<E>>(capacity: Int = 8) {
         if (k > 0 && data[parent(k)] < data[k]) {
             //获得父节点元素位置
             val parentIndex = parent(k)
-            //交换父亲节点元素
+            //交换父节点元素
             swap(k, parentIndex)
             //递归排序
             siftUp(parentIndex)
@@ -97,4 +119,18 @@ class MaxHeap<E : Comparable<E>>(capacity: Int = 8) {
         //递归继续尝试
         siftDown(index)
     }
+
+    //取出堆中最大元素，并且替换成元素e
+    fun replace(e: E): E {
+        val ret = findMax()
+        data[0] = e
+        siftDown(0)
+        return ret
+    }
+
+    //O(n)
+    fun heapify() {
+
+    }
+
 }
