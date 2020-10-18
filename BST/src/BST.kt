@@ -62,7 +62,7 @@ class BST<E : Comparable<E>> {
     }
 
     /** dfs-前序遍历 */
-    private fun prologue(node: Node<E>?) {
+    private  fun prologue(node: Node<E>?) {
         if (node == null) return
         print("${node.e},")
         prologue(node.left)
@@ -102,7 +102,7 @@ class BST<E : Comparable<E>> {
     }
 
     /** 中序遍历-具体实现 */
-    private fun inOrder(node: Node<E>?) {
+    private  fun inOrder(node: Node<E>?) {
         if (node == null) {
             return
         }
@@ -120,7 +120,7 @@ class BST<E : Comparable<E>> {
     }
 
     /** 是否包含指定元素 */
-    private fun contains(node: Node<E>?, e: E): Boolean {
+    private tailrec fun contains(node: Node<E>?, e: E): Boolean {
         if (node == null) return false
         return when {
             node.e == e -> {
@@ -160,7 +160,7 @@ class BST<E : Comparable<E>> {
     /** 层序遍历当前树，合成相应的list
      *  当存在[*]时，代表其是右子树，并且其左子树为null
      * */
-    private fun getBstList(
+    private  fun getBstList(
         node: Node<E>?,
         height: Int,
         arrayList: ArrayList<LinkedList<String>>
@@ -242,7 +242,7 @@ class BST<E : Comparable<E>> {
      * 删除以node 为根的二分搜索树 值为e的节点
      * 返回 删除节点后新的二分搜索树的根
      * */
-    private fun remove(node: Node<E>?, e: E): Node<E>? {
+    private  fun remove(node: Node<E>?, e: E): Node<E>? {
         //健壮性判断
         if (node == null) return node
         return when {

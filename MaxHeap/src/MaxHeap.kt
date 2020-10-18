@@ -92,7 +92,7 @@ class MaxHeap<E : Comparable<E>> {
     }
 
     //元素上浮，从底向上
-    private fun siftUp(k: Int) {
+    private tailrec fun siftUp(k: Int) {
         //如果当前节点不为0，并且其大于父元素，则进行更换
         if (k > 0 && data[parent(k)] < data[k]) {
             //获得父节点元素位置
@@ -105,7 +105,7 @@ class MaxHeap<E : Comparable<E>> {
     }
 
     //元素下浮，从顶向下
-    private fun siftDown(k: Int) {
+    private tailrec fun siftDown(k: Int) {
         //拿到左边元素
         var index = leftChild(k)
         //如果左孩子位置合适，并且右孩子大于左孩子，就将要调整的位置给右孩子
