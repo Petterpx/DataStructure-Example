@@ -4,9 +4,6 @@
  * @Email ShiyihuiCloud@163.com
  * @Function
  */
-class Test {
-
-}
 
 fun addDigits(num: Int): Int {
     var temp = num

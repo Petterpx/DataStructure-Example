@@ -2,7 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="likou" target="1.8" />
+      <module name="likou.main" target="1.8" />
+      <module name="likou.test" target="1.8" />
       <module name="linked.main" target="1.8" />
       <module name="linked.test" target="1.8" />
     </bytecodeTargetLevel>
