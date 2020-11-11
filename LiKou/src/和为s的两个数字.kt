@@ -6,5 +6,16 @@
  */
 class 和为s的两个数字 {
 
-    fun twoSum()
+    //利用hashset处理
+    fun twoSum(nums: IntArray, target: Int): IntArray {
+        val hashSet = HashSet<Int>()
+        nums.forEach {
+            if (hashSet.contains(target - it)) {
+                return intArrayOf(it, target - it)
+            } else {
+                hashSet.add(it)
+            }
+        }
+        return intArrayOf()
+    }
 }
