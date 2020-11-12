@@ -8,7 +8,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$/likou" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/likou" />
+            <option value="$PROJECT_DIR$/LiKou" />
           </set>
         </option>
       </GradleProjectSettings>
