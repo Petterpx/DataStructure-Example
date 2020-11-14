@@ -10,7 +10,6 @@
       <module fileurl="file://$PROJECT_DIR$/Recursion/Recursion.iml" filepath="$PROJECT_DIR$/Recursion/Recursion.iml" />
       <module fileurl="file://$PROJECT_DIR$/Set/Set.iml" filepath="$PROJECT_DIR$/Set/Set.iml" />
       <module fileurl="file://$PROJECT_DIR$/Stack/Stack.iml" filepath="$PROJECT_DIR$/Stack/Stack.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/likou.iml" filepath="$PROJECT_DIR$/test/likou.iml" />
     </modules>
   </component>
 </project>

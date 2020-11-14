@@ -54,3 +54,7 @@ private fun addString(num1: String, num2: String): String {
     if (c > 0) result.append(c)
     return result.reverse().toString()
 }
+
+fun main() {
+
+}
