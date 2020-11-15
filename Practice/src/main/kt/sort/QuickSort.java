@@ -1,4 +1,4 @@
-package sort;
+package kt.sort;
 
 import java.util.Arrays;
 
