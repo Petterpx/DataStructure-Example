@@ -18,10 +18,10 @@ import java.util.*
  *  使用栈存储，将字符串切割为char遍历，先存储指定方向的符号，如'(','{','['。
  *  如果属于右方向的，如'}'等，进入判断，如果栈顶符号与当前char相等并且栈不会null，即为正确，否则直接return false
  * */
-fun isBrackets(str: String): Boolean {
-    if (str.length < 2) return false
+fun isBrackets(s: String): Boolean {
+    if (s.length < 2) return false
     val stack = Stack<Char>()
-    str.forEach {
+    s.forEach {
         if ("{([".contains(it)) {
             stack.push(it)
         } else {
@@ -33,11 +33,12 @@ fun isBrackets(str: String): Boolean {
     return stack.isEmpty()
 }
 
-private fun isBracketChart(str1: Char, str2: Char): Boolean {
-    return ("{[(".contains(str1) && "})]".contains(str2)) || ("{[(".contains(str2) && "})]".contains(str1))
-}
+private fun isBracketChart(str1: Char, str2: Char): Boolean =
+    (str1 == '{' && str2 == '}') ||
+            (str1 == '[' && str2 == ']') || (str1 == '(' && str2 == ')')
+
 
 fun main() {
-    println(isBrackets("{}"))
+    println(isBrackets("{]"))
 }
 

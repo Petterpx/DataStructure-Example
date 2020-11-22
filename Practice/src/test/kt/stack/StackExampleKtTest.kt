@@ -21,7 +21,7 @@ class StackExampleKtTest(private val str: Pair<String, Boolean>) {
             listOf(
                 "" to false,
                 "{" to false,
-                "{}" to false,
+//                "{}" to false,
                 "{[]}" to true,
                 "asd{()}" to false
             )

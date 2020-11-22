@@ -1,7 +1,9 @@
 package kt.bst
 
 import java.util.*
+import javax.swing.tree.TreeNode
 import kotlin.collections.ArrayList
+
 
 /**
  * @Author petterp
@@ -67,3 +69,22 @@ fun bfsTraverse(root: Node<Int>?): List<List<Int>>? {
     }
 }
 
+
+// TODO: 2020/11/17 存在问题
+/** 判断二叉树是否是二分查找树
+ *  采用自顶向下的遍历方式，对于每个节点，检查顶部传来的范围要求
+ *  要求是指：对于左子树，父节点的值就是最大值，对于右子树，父节点的值就是最小值
+ * */
+fun isValidBST(root: Node<Int>?): Boolean {
+    return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE)
+}
+
+
+ fun isValidBST(root: Node<Int>?, min: Long, max: Long): Boolean =
+    //如果节点为null,默认为true
+    root?.let {
+        if (root.e > max || root.e < min) false
+        //对于左子树，当前节点的值为最大值；对于右子树，当前节点的值为最小值
+        else isValidBST(root.left, min, root.e.toLong())
+                && isValidBST(root.right, root.e.toLong(), max)
+    } ?: true
