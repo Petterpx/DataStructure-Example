@@ -36,7 +36,25 @@ class LinkedRing {
         }
     }
 
-    /** 头插法，每次都插入头结点 */
+    /**每次都访问的原链表节点都会成为新链表头结点
+     * 示例插入的过程：
+     * 比如链表，1->2->3->null，具体插入过程如下
+     * 1. tempNode(1->2->3->null)
+     *    temp=2->3->null
+     *    tempNode.next(1->.next)=newHead(null)
+     *    newHead(null)=tempNode(1->null)
+     *    tempNode(1->2->3->null)=temp(2->3->null)
+     *
+     *    当前：newHead(1->null) tempNode(2->3->null)
+     *
+     * 2. tempNode(2->3->null)
+     *    temp=3->null
+     *    tempNode.next(2->.next)=newHead(1->null)
+     *    newHead(1->null)=tempNode(2->1->null)
+     *    tempNode(2->1->null)=temp(3->null)
+     *
+     *    当前：newHead(2-1->null) tempNode(3->null)
+     * */
     fun reverseLinked(head: ListNode?): ListNode? {
         var newHead: ListNode? = null
         var tempNode = head
